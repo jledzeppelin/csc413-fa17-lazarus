@@ -3,16 +3,16 @@ import java.awt.Canvas;
 import java.awt.image.*;
 
 public class LazarusGame extends Canvas implements Runnable {
-  public static int WIDTH = 1000;
-  public static int HEIGHT = 1000;
+  public static int WIDTH = 806; //weird dimensions, stick to 20 blocks wide for this to work
+  public static int HEIGHT = 829;
   
   private boolean isRunning = false;
   private Thread thread;
   private GameHandler handler;
-  private MovementImage imageMap;
   
   private BufferedImage level;
-  private BufferedImage lives;
+  private BufferedImage background;
+  private BufferedImage lives; //could put into own class
   private BufferedImage floor;
   
   boolean gameOver = false;
@@ -23,13 +23,12 @@ public class LazarusGame extends Canvas implements Runnable {
   public LazarusGame() {
     new GameWindow(WIDTH, HEIGHT, "Lazarus", this);
     start();
-    
     handler = new GameHandler();
-
     this.addKeyListener(new KeyInput(handler));
     
     ImageLoader loader = new ImageLoader();
-    level = loader.loadImage("LazarusSimpleMap.png");
+    level = loader.loadImage("/LazarusSimpleMap.png");
+    background = loader.loadImage("/Background.png");
     
     loadLevel(level);
   }
@@ -51,11 +50,9 @@ public class LazarusGame extends Canvas implements Runnable {
   }
   
   public void tick() {
-    
     handler.tick();
   }
   
-  //render everything in game
   public void render() {
     BufferStrategy buffStrat = this.getBufferStrategy();
     
@@ -69,10 +66,8 @@ public class LazarusGame extends Canvas implements Runnable {
     //***************** Start of drawing section
     
     //background
-    graphics.setColor(Color.lightGray);
-    graphics.fillRect(0, 0, WIDTH, HEIGHT);
+    graphics.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
     
-    //cameras  
     handler.renderPlayer(graphics);
     
     //health and lives
@@ -89,7 +84,7 @@ public class LazarusGame extends Canvas implements Runnable {
     }
     */
     
-    //make into ending screen
+    /*
     if (gameOver) {
       Font gameOverFont = new Font("Monotype Corsiva", Font.BOLD, 80);
       
@@ -103,6 +98,7 @@ public class LazarusGame extends Canvas implements Runnable {
       graphics.setColor(Color.white);
       graphics.drawString(message, xPos, yPos - 15);
     }
+    */
     
     //***************** End of drawing section
     
@@ -123,14 +119,11 @@ public class LazarusGame extends Canvas implements Runnable {
         int blue = (pixel) & 0xff;
         
         if (red == 255) {
-        }
-        if (blue == 255) {
-          
+          handler.addObject(new Wall(xAxis * 40, yAxis * 40, ObjectID.Wall));
         }
         if (green == 255) {
-          
+          handler.addObject(new Player(xAxis * 40, yAxis * 40, ObjectID.Player, handler));
         }
-  
       }
     }
   }

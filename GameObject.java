@@ -2,14 +2,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public abstract class GameObject {
-  public final int blockWidth = 40;
-  public final int blockHeight = 40;
-  
-  protected int x, y;
-  protected int width = 40; //all blocks will have these dimensions cus i said so
+  protected int width = 40;
   protected int height = 40;
-  protected int xVelocity;
-  protected int yVelocity;
+  protected int x, y;
+  protected int xVelocity = 0;
+  protected int yVelocity = 0;
   protected ObjectID id;
   
   public GameObject(int x, int y, ObjectID id) {
