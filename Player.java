@@ -19,7 +19,7 @@ public class Player extends GameObject {
     
     ImageLoader loader = new ImageLoader();
     test = loader.loadImage("/Lazarus_stand.png");
-    movesLeft = 1;
+    movesLeft = 0;
     //blobStrip = handler.getImageString(PlayerStates.Standing);
   }
   
@@ -38,7 +38,7 @@ public class Player extends GameObject {
     }
     */
   
-    if (movesLeft >= 1) {
+    if (movesLeft > 0) {
       x += xVelocity;
       y += yVelocity;
       
@@ -46,19 +46,15 @@ public class Player extends GameObject {
     } else {
       if (handler.isLeft()) {
         //moves by 6 for 7 times to equal the width of a block
-        xVelocity -= 6;
+        xVelocity = -6;
         movesLeft = 7;
         //blobStrip = handler.getImageString(PlayerStates.MoveLeft);
-      } else if (!handler.isRight()) {
-        xVelocity -= 0;
       }
     
       if (handler.isRight()) {
-        xVelocity += 6;
+        xVelocity = 6;
         movesLeft = 7;
         //blobStrip = handler.getImageString(PlayerStates.MoveRight);
-      } else if (!handler.isLeft()) {
-        xVelocity += 0;
       }
     }
 

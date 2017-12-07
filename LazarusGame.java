@@ -117,10 +117,10 @@ public class LazarusGame extends Canvas implements Runnable {
         int blue = (pixel) & 0xff;
         
         if (red == 255) {
-          handler.addObject(new Wall(xAxis * 40, yAxis * 40, ObjectID.Wall));
+          handler.addObject(new Wall(xAxis * 42, yAxis * 42, ObjectID.Wall));
         }
         if (green == 255) {
-          handler.addObject(new Player(xAxis * 40, yAxis * 40, ObjectID.Player, handler));
+          handler.addObject(new Player(xAxis * 42, yAxis * 42, ObjectID.Player, handler));
         }
       }
     }
