@@ -17,8 +17,6 @@ public class LazarusGame extends Canvas implements Runnable {
   
   boolean gameOver = false;
   String message;
-  //SoundPlayer soundPlayer;
-  //private String ending = "endingScreen.wav";
           
   public LazarusGame() {
     new GameWindow(WIDTH, HEIGHT, "Lazarus", this);
@@ -68,7 +66,7 @@ public class LazarusGame extends Canvas implements Runnable {
     //background
     graphics.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
     
-    handler.renderPlayer(graphics);
+    handler.render(graphics);
     
     //health and lives
     /*

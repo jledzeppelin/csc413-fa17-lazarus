@@ -5,12 +5,10 @@ import java.awt.image.BufferedImage;
 public class Player extends GameObject {
   private int health;
   private int lives;
-  private int tileSize;
-  private int movementLimit = 40;
+  private int movesLeft;
   
-  private BufferedImage blob;
   private BufferedImage[] blobStrip;
-  ImageLoader loader;
+  private BufferedImage test;
   GameHandler handler;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
@@ -19,15 +17,10 @@ public class Player extends GameObject {
     health = 100;
     lives = 3;
     
-    loader = new ImageLoader();
-    blob = loader.loadImage("/" + handler.getImageString(PlayerStates.Standing));
-    tileSize = blob.getWidth() / handler.getStripLength(PlayerStates.Standing);
-    blobStrip = new BufferedImage[ handler.getStripLength(PlayerStates.Standing) ];
-    
-    for (int i = 0; i < blobStrip.length; i++) {
-      blobStrip[i] = blob.getSubimage(i * tileSize, 0, tileSize, tileSize);
-    }
-    
+    ImageLoader loader = new ImageLoader();
+    test = loader.loadImage("/Lazarus_stand.png");
+    movesLeft = 1;
+    //blobStrip = handler.getImageString(PlayerStates.Standing);
   }
   
   @Override
@@ -44,35 +37,39 @@ public class Player extends GameObject {
       }
     }
     */
-    
-    //TO DO fix this shit
-    if (movementLimit >= 0) {
+  
+    if (movesLeft >= 1) {
       x += xVelocity;
       y += yVelocity;
+      
+      movesLeft--;
     } else {
-      movementLimit = 40;
-    }
-    
-    if (handler.isLeft()) {
-      if (movementLimit == 40) {
-        xVelocity -= 40;
+      if (handler.isLeft()) {
+        //moves by 6 for 7 times to equal the width of a block
+        xVelocity -= 6;
+        movesLeft = 7;
+        //blobStrip = handler.getImageString(PlayerStates.MoveLeft);
+      } else if (!handler.isRight()) {
+        xVelocity -= 0;
       }
-    } else if (!handler.isRight()) {
-      xVelocity -= 0;
-    }
     
-    if (handler.isRight()) {
-      if (movementLimit == 40) {
-        xVelocity += 40;
+      if (handler.isRight()) {
+        xVelocity += 6;
+        movesLeft = 7;
+        //blobStrip = handler.getImageString(PlayerStates.MoveRight);
+      } else if (!handler.isLeft()) {
+        xVelocity += 0;
       }
-    } else if (!handler.isLeft()) {
-      xVelocity += 0;
     }
+
   }
   
   @Override
   public void render(Graphics graphics) {
+    //int tmpIndex = blobStrip.length - movesLeft;
     
+    //graphics.drawImage(blobStrip[tmpIndex], x, y, null);
+    graphics.drawImage(test, x, y, width, height, null);
   }
   
   @Override

@@ -1,9 +1,9 @@
 public enum PlayerStates {
-  Standing,
-  MoveRight,
-  MoveLeft,
-  Scared,
-  Squished,
-  JumpRight,
-  JumpLeft;
+  Standing(),
+  MoveRight(),
+  MoveLeft(),
+  Scared(),
+  Squished(),
+  JumpRight(),
+  JumpLeft();
 }
