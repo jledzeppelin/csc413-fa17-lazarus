@@ -3,17 +3,17 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class CardboardBox extends NextBlock {
+public class FallingBlock extends NextBlock {
   private BufferedImage block;
   private int fallingVel = 5;
   GameHandler handler;
   
-  public CardboardBox(int x, int y, int weight, int fallingSpeed, ObjectID id, GameHandler handler) {
+  public FallingBlock(int x, int y, int weight, int fallingSpeed, ObjectID id, GameHandler handler) {
     super(x, y, weight, fallingSpeed, id);
     this.handler = handler;
     
     ImageLoader loader = new ImageLoader();
-    block = loader.loadImage("/CardBox.png");
+    block = loader.loadImage();
     isFalling = true;
   }
   

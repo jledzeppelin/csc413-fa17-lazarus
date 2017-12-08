@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.awt.Graphics;
+import java.util.HashMap;
 
 public class GameHandler {
   ArrayList<GameObject> obj = new ArrayList<GameObject>();
+  static HashMap<ObjectID, String> blockImageMap = new HashMap<>();
+  
   private boolean moveRight = false;
   private boolean moveLeft = false;
   
@@ -28,14 +31,6 @@ public class GameHandler {
     obj.remove(tmpObj);
   }
   
-  //public BufferedImage[] getImageString(PlayerStates state) {
-  //  return images.get(state);
-  //}
-  
-  //public int getStripLength(PlayerStates state) {
-  //  return stripLength.get(state);
-  //}
-  
   public boolean isRight() {
     return moveRight;
   }
@@ -47,5 +42,14 @@ public class GameHandler {
   }
   public void setLeft(boolean left) {
     this.moveLeft = left;
+  }
+  
+  static {
+    blockImageMap.put(ObjectID.CardboardBox, "/CardBox.png");
+    blockImageMap.put(ObjectID.Rock, "/Rock.png");
+    blockImageMap.put(ObjectID.Mesh, "/Mesh.png");
+    blockImageMap.put(ObjectID.MetalBox, "/MetalBox.png");
+    blockImageMap.put(ObjectID.StoneBox, "/StoneBox.png");
+    blockImageMap.put(ObjectID.WoodBox, "/WoodBox.png");
   }
 }
