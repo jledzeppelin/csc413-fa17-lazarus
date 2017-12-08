@@ -7,6 +7,7 @@ public abstract class GameObject {
   protected int x, y;
   protected int xVelocity = 0;
   protected int yVelocity = 0;
+  protected int lives;
   protected ObjectID id;
   
   public GameObject(int x, int y, ObjectID id) {

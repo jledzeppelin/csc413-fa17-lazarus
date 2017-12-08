@@ -3,17 +3,19 @@ import java.awt.Canvas;
 import java.awt.image.*;
 
 public class LazarusGame extends Canvas implements Runnable {
-  public static int WIDTH = 806; //weird dimensions, stick to 20 blocks wide for this to work
-  public static int HEIGHT = 829;
+  public static int WIDTH = 845;
+  public static int HEIGHT = 701;
   
   private boolean isRunning = false;
   private Thread thread;
   private GameHandler handler;
+  private EndingScreen ending;
   
   private BufferedImage level;
   private BufferedImage background;
-  private BufferedImage lives; //could put into own class
-  private BufferedImage floor;
+  private BufferedImage lives;
+  
+  private int playerLives;
   
   boolean gameOver = false;
   String message;
@@ -27,6 +29,7 @@ public class LazarusGame extends Canvas implements Runnable {
     ImageLoader loader = new ImageLoader();
     level = loader.loadImage("/LazarusSimpleMap.png");
     background = loader.loadImage("/Background.png");
+    lives = loader.loadImage("/heart.png");
     
     loadLevel(level);
   }
@@ -48,6 +51,17 @@ public class LazarusGame extends Canvas implements Runnable {
   }
   
   public void tick() {
+    for (int i = 0; i < handler.obj.size(); i++) {
+      if (handler.obj.get(i).getID() == ObjectID.Player) {
+        playerLives = handler.obj.get(i).lives;
+        
+        if (playerLives == 0) {
+          gameOver = true;
+          message = "GAME OVER";
+        }
+      }
+    }
+    
     handler.tick();
   }
   
@@ -57,46 +71,30 @@ public class LazarusGame extends Canvas implements Runnable {
     if (buffStrat == null) {
       this.createBufferStrategy(3);
       return;
-    }
-    
+    }  
     Graphics graphics = buffStrat.getDrawGraphics();
     
     //***************** Start of drawing section
     
     //background
-    graphics.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
+    graphics.drawImage(background, 0, 0, WIDTH, HEIGHT, null); 
+    
+    //lives 
+    for (int i = 0; i < playerLives; i++){
+      graphics.drawImage(lives, 10 + 35 * i, 10, 40, 40, null);
+    }
+    
+    //next block
+    graphics.setColor(Color.lightGray);
+    graphics.fillRect(2, 120, 42*3, 42*3);
+    graphics.setColor(Color.black);
+    graphics.drawRect(2, 120, 42*3, 42*3);
     
     handler.render(graphics);
     
-    //health and lives
-    /*
-    graphics.setColor(Color.gray);
-    graphics.fillRect(0, 500, 100, 20);
-    graphics.setColor(Color.green);
-    graphics.fillRect(0, 500, player1Health, 20);
-    graphics.setColor(Color.black);
-    graphics.drawRect(0, 500, 100, 20);
-    
-    for (int i = 0; i < player1Lives; i++){
-      graphics.drawImage(lives, 120 + 30 * i, 491, 34, 34, null);
-    }
-    */
-    
-    /*
     if (gameOver) {
-      Font gameOverFont = new Font("Monotype Corsiva", Font.BOLD, 80);
-      
-      FontMetrics metrics = graphics.getFontMetrics(gameOverFont);
-      int xPos = (WIDTH - metrics.stringWidth(message)) / 2;
-      int yPos = (HEIGHT - metrics.getHeight()) / 2 + metrics.getAscent();
-      graphics.setFont(gameOverFont);
-      
-      graphics.setColor(Color.black);
-      graphics.fillRect(0, 0, WIDTH, HEIGHT);
-      graphics.setColor(Color.white);
-      graphics.drawString(message, xPos, yPos - 15);
+      ending.loadEnding(graphics, WIDTH, HEIGHT, message);
     }
-    */
     
     //***************** End of drawing section
     
@@ -121,6 +119,9 @@ public class LazarusGame extends Canvas implements Runnable {
         }
         if (green == 255) {
           handler.addObject(new Player(xAxis * 42, yAxis * 42, ObjectID.Player, handler));
+        }
+        if (blue == 255) {
+          handler.addObject(new StopButton(xAxis * 42, yAxis * 42, ObjectID.StopButton));
         }
       }
     }

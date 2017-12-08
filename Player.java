@@ -1,26 +1,29 @@
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class Player extends GameObject {
-  private int health;
-  private int lives;
-  private int movesLeft;
   
+  private HashMap<PlayerStates, BufferedImage[]> images;
+  private ImageStripLoader imgStripLoader;
+  
+  private int movesLeft; 
   private BufferedImage[] blobStrip;
-  private BufferedImage test;
   GameHandler handler;
+  private boolean win = false;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
     super(x, y, id);
     this.handler = handler;
-    health = 100;
     lives = 3;
     
-    ImageLoader loader = new ImageLoader();
-    test = loader.loadImage("/Lazarus_stand.png");
+    images = new HashMap<>();
+    imgStripLoader = new ImageStripLoader();
+    fillImageMap();
+    
     movesLeft = 0;
-    //blobStrip = handler.getImageString(PlayerStates.Standing);
+    blobStrip = images.get(PlayerStates.Standing);
   }
   
   @Override
@@ -37,24 +40,36 @@ public class Player extends GameObject {
       }
     }
     */
-  
+    
     if (movesLeft > 0) {
       x += xVelocity;
       y += yVelocity;
       
+      collision(); //maybe not in right place
+      
       movesLeft--;
     } else {
+      //reset to standing image
+      blobStrip = images.get(PlayerStates.Standing);
+      movesLeft = 0;
+      
       if (handler.isLeft()) {
         //moves by 6 for 7 times to equal the width of a block
         xVelocity = -6;
         movesLeft = 7;
-        //blobStrip = handler.getImageString(PlayerStates.MoveLeft);
+        blobStrip = images.get(PlayerStates.MoveLeft);
+      } else if (!handler.isRight()) {
+        xVelocity = 0;
+        yVelocity = 0;
       }
     
       if (handler.isRight()) {
         xVelocity = 6;
         movesLeft = 7;
-        //blobStrip = handler.getImageString(PlayerStates.MoveRight);
+        blobStrip = images.get(PlayerStates.MoveRight);
+      } else if (!handler.isLeft()) {
+        xVelocity = 0;
+        yVelocity = 0;
       }
     }
 
@@ -62,10 +77,16 @@ public class Player extends GameObject {
   
   @Override
   public void render(Graphics graphics) {
-    //int tmpIndex = blobStrip.length - movesLeft;
+    //TO DO can probably make the movesLeft check better
     
-    //graphics.drawImage(blobStrip[tmpIndex], x, y, null);
-    graphics.drawImage(test, x, y, width, height, null);
+    int tmpIndex;
+    
+    if (movesLeft == 0) {
+      tmpIndex = blobStrip.length - 1;
+    } else {
+      tmpIndex = blobStrip.length - movesLeft;
+    }
+    graphics.drawImage(blobStrip[tmpIndex], x, y, width, height, null);
   }
   
   @Override
@@ -73,19 +94,25 @@ public class Player extends GameObject {
     return new Rectangle(x, y, width, height);
   }
  
-  /*
   private void collision() {
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
-      if (tmpObj.getID() == ObjectID.IndestructibleBlock || tmpObj.getID() == ObjectID.DestructibleBlock || 
-              tmpObj.getID() == ObjectID.Player1){
+      if (tmpObj.getID() == ObjectID.Wall){
         if (getBounds().intersects(tmpObj.getBounds())) {
-          x += xSpeed * -1;
-          y += ySpeed * -1;
+          // TO DO 
         }
       }
     }
   }
-  */
+  
+  public void fillImageMap() {
+    images.put(PlayerStates.Standing, imgStripLoader.getImageStrip("/Lazarus_stand.png", 1));
+    images.put(PlayerStates.Scared, imgStripLoader.getImageStrip("/Lazarus_afraid_strip10.png", 10));
+    images.put(PlayerStates.Squished, imgStripLoader.getImageStrip("/Lazarus_squished_strip11.png", 11));
+    images.put(PlayerStates.MoveLeft, imgStripLoader.getImageStrip("/Lazarus_left_strip7.png", 7));
+    images.put(PlayerStates.MoveRight, imgStripLoader.getImageStrip("/Lazarus_right_strip7.png", 7));
+    images.put(PlayerStates.JumpLeft, imgStripLoader.getImageStrip("/Lazarus_jump_left_strip7.png", 7));
+    images.put(PlayerStates.JumpRight, imgStripLoader.getImageStrip("/Lazarus_jump_right_strip7.png", 7));
+  }
 }
