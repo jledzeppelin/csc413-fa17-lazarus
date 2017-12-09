@@ -43,6 +43,9 @@ public class GameHandler {
   public void setLeft(boolean left) {
     this.moveLeft = left;
   }
+  public String getImageSource(ObjectID id) {
+    return blockImageMap.get(id);
+  }
   
   static {
     blockImageMap.put(ObjectID.CardboardBox, "/CardBox.png");

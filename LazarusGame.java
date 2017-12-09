@@ -10,6 +10,7 @@ public class LazarusGame extends Canvas implements Runnable {
   private Thread thread;
   private GameHandler handler;
   private EndingScreen ending;
+  private NewFallingObject fallingObject;
   
   private BufferedImage level;
   private BufferedImage background;
@@ -25,6 +26,7 @@ public class LazarusGame extends Canvas implements Runnable {
     start();
     handler = new GameHandler();
     this.addKeyListener(new KeyInput(handler));
+    fallingObject = new NewFallingObject(handler);
     
     ImageLoader loader = new ImageLoader();
     level = loader.loadImage("/LazarusSimpleMap.png");
@@ -63,6 +65,7 @@ public class LazarusGame extends Canvas implements Runnable {
     }
     
     handler.tick();
+    fallingObject.createNewFallingObject();
   }
   
   public void render() {

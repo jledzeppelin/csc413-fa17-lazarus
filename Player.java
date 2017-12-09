@@ -45,8 +45,7 @@ public class Player extends GameObject {
       x += xVelocity;
       y += yVelocity;
       
-      collision(); //maybe not in right place
-      
+      collision();
       movesLeft--;
     } else {
       //reset to standing image
@@ -72,13 +71,10 @@ public class Player extends GameObject {
         yVelocity = 0;
       }
     }
-
   }
   
   @Override
   public void render(Graphics graphics) {
-    //TO DO can probably make the movesLeft check better
-    
     int tmpIndex;
     
     if (movesLeft == 0) {
@@ -98,9 +94,11 @@ public class Player extends GameObject {
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
+      //TO DO add jump to block if possible
       if (tmpObj.getID() == ObjectID.Wall){
         if (getBounds().intersects(tmpObj.getBounds())) {
-          // TO DO 
+          x += -xVelocity;
+          y += -yVelocity;
         }
       }
     }

@@ -9,6 +9,8 @@ public class ImageStripLoader {
   
   public BufferedImage[] getImageStrip(String source, int length) {
     try {
+      //TO DO check is the strip is being cut up correctly
+      
       image = ImageIO.read(getClass().getResource(source));
       tileSize = image.getWidth() / length;
       imageStrip = new BufferedImage[length];

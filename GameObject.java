@@ -9,6 +9,7 @@ public abstract class GameObject {
   protected int yVelocity = 0;
   protected int lives;
   protected ObjectID id;
+  protected boolean isFalling = false;
   
   public GameObject(int x, int y, ObjectID id) {
     this.x = x;
@@ -49,5 +50,11 @@ public abstract class GameObject {
   }
   public void setID(ObjectID id) {
     this.id = id;
+  }
+  public boolean isFalling() {
+    return isFalling;
+  }
+  public void setFalling(boolean fall) {
+    this.isFalling = fall;
   }
 }

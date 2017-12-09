@@ -5,24 +5,14 @@ import java.util.HashMap;
 public abstract class NextBlock extends GameObject {
   protected static HashMap<ObjectID, Integer> blockWeightMap = new HashMap<>();
   protected static HashMap<ObjectID, Integer> blockSpeedMap = new HashMap<>();
-  protected boolean isFalling = false;
   
-  public NextBlock(int x, int y, int weight, int fallingSpeed, ObjectID id) {
+  public NextBlock(int x, int y, ObjectID id) {
     super(x, y, id);
-    this.weight = weight;
-    this.fallingSpeed = fallingSpeed;
   }
   
   public abstract void tick();
   public abstract void render(Graphics graphics);
   public abstract Rectangle getBounds();
-  
-  public boolean isFalling() {
-    return isFalling;
-  }
-  public void setFall(boolean fall) {
-    isFalling = fall;
-  }
   
   static {
     blockWeightMap.put(ObjectID.CardboardBox, 1);
@@ -32,11 +22,11 @@ public abstract class NextBlock extends GameObject {
     blockWeightMap.put(ObjectID.StoneBox, 5);
     blockWeightMap.put(ObjectID.WoodBox, 2);
     
-    blockWeightMap.put(ObjectID.CardboardBox, 5);
-    blockWeightMap.put(ObjectID.Rock, 7);
-    blockWeightMap.put(ObjectID.Mesh, 5);
-    blockWeightMap.put(ObjectID.MetalBox, 8);
-    blockWeightMap.put(ObjectID.StoneBox, 9);
-    blockWeightMap.put(ObjectID.WoodBox, 6);
+    blockSpeedMap.put(ObjectID.CardboardBox, 5);
+    blockSpeedMap.put(ObjectID.Rock, 7);
+    blockSpeedMap.put(ObjectID.Mesh, 5);
+    blockSpeedMap.put(ObjectID.MetalBox, 8);
+    blockSpeedMap.put(ObjectID.StoneBox, 9);
+    blockSpeedMap.put(ObjectID.WoodBox, 6);
   }
 }

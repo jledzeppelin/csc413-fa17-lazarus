@@ -5,27 +5,21 @@ import java.awt.image.BufferedImage;
 
 public class FallingBlock extends NextBlock {
   private BufferedImage block;
-  private int fallingVel = 5;
   GameHandler handler;
   
-  public FallingBlock(int x, int y, int weight, int fallingSpeed, ObjectID id, GameHandler handler) {
-    super(x, y, weight, fallingSpeed, id);
+  public FallingBlock(int x, int y, ObjectID id, GameHandler handler) {
+    super(x, y, id);
     this.handler = handler;
     
     ImageLoader loader = new ImageLoader();
-    block = loader.loadImage();
+    block = loader.loadImage(this.handler.getImageSource(id));
     isFalling = true;
   }
   
   @Override
   public void tick() {
-    y += yVelocity * fallingSpeed;
-    
-    if (isFalling) {
-      yVelocity += fallingVel;
-    } else {
-      yVelocity += 0;
-    }
+    //y += yVelocity * blockSpeedMap.get(id);
+    y += 1;
     
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
