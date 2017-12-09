@@ -79,6 +79,9 @@ public class Player extends GameObject {
         yVelocity = 0;
       }
     }
+    if (this.lives == 0) {
+      handler.removeObject(this);
+    }
   }
   
   @Override
@@ -113,7 +116,7 @@ public class Player extends GameObject {
       
       //TO DO add jump to block if possible
       
-      if (tmpObj.getID() != ObjectID.Player ){
+      if (tmpObj.getID() != ObjectID.Player && tmpObj.getID() != ObjectID.StopButton){
         if (getBounds().intersects(tmpObj.getBounds())) {
           //x += -xVelocity;
          // y += -yVelocity;
@@ -122,7 +125,7 @@ public class Player extends GameObject {
           y -= 42; 
           for (int j = 0; j < handler.obj.size(); j++) {
             GameObject tmpObj2 = handler.obj.get(j);
-            if (tmpObj2.getID() != ObjectID.Player ){
+            if (tmpObj2.getID() != ObjectID.Player && tmpObj.getID() != ObjectID.StopButton){
               if(getBounds().intersects(tmpObj2.getBounds()))
                 intersect = true;   
               }  
