@@ -89,7 +89,7 @@ public class Player extends GameObject {
       tmpIndex = blobStrip.length - movesLeft;
     }
     if(playerState == true){
-    graphics.drawImage(blobStrip[tmpIndex], x , y - 40 , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
+    graphics.drawImage(blobStrip[tmpIndex], x , y - 42 , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
     }else{
       graphics.drawImage(blobStrip[tmpIndex], x , y , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
     }
@@ -113,7 +113,7 @@ public class Player extends GameObject {
          // y += -yVelocity;
           
           
-          y -= 41; 
+          y -= 43; 
           for (int j = 0; j < handler.obj.size(); j++) {
             GameObject tmpObj2 = handler.obj.get(j);
             if (tmpObj2.getID() == ObjectID.Wall){
@@ -122,7 +122,7 @@ public class Player extends GameObject {
               }  
             }
           if (intersect == true){
-            y += 41;
+            y += 43;
             x += -xVelocity;
           }else {
             y -= 1;
