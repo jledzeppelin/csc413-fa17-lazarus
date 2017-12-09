@@ -2,8 +2,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public abstract class GameObject {
-  protected int width = 42;
-  protected int height = 42;
+  protected int width = 40;
+  protected int height = 40;
   protected int x, y;
   protected int xVelocity = 0;
   protected int yVelocity = 0;

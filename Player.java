@@ -12,6 +12,7 @@ public class Player extends GameObject {
   private BufferedImage[] blobStrip;
   GameHandler handler;
   private boolean win = false;
+  private boolean playerState = false;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
     super(x, y, id);
@@ -49,14 +50,18 @@ public class Player extends GameObject {
       movesLeft--;
     } else {
       //reset to standing image
+      playerState = false;
       blobStrip = images.get(PlayerStates.Standing);
+      
       movesLeft = 0;
       
       if (handler.isLeft()) {
         //moves by 6 for 7 times to equal the width of a block
         xVelocity = -6;
         movesLeft = 7;
+        playerState = true;
         blobStrip = images.get(PlayerStates.MoveLeft);
+        
       } else if (!handler.isRight()) {
         xVelocity = 0;
         yVelocity = 0;
@@ -65,6 +70,7 @@ public class Player extends GameObject {
       if (handler.isRight()) {
         xVelocity = 6;
         movesLeft = 7;
+        playerState = true;
         blobStrip = images.get(PlayerStates.MoveRight);
       } else if (!handler.isLeft()) {
         xVelocity = 0;
@@ -82,7 +88,12 @@ public class Player extends GameObject {
     } else {
       tmpIndex = blobStrip.length - movesLeft;
     }
-    graphics.drawImage(blobStrip[tmpIndex], x, y, width, height, null);
+    if(playerState == true){
+    graphics.drawImage(blobStrip[tmpIndex], x , y - 40 , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
+    }else{
+      graphics.drawImage(blobStrip[tmpIndex], x , y , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
+    }
+    //graphics.drawImage(blobStrip[tmpIndex], x, y, width, height, null);
   }
   
   @Override
