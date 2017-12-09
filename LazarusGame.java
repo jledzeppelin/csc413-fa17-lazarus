@@ -15,6 +15,8 @@ public class LazarusGame extends Canvas implements Runnable {
   private BufferedImage level;
   private BufferedImage background;
   private BufferedImage lives;
+  private BufferedImage nextBlockImage;
+  private ImageLoader loader;
   
   private int playerLives;
   private int resetPosX;
@@ -22,16 +24,19 @@ public class LazarusGame extends Canvas implements Runnable {
   private boolean victory = false;
   private boolean gameOver = false;
   private String message;
+  private ObjectID nextBlockQueued;
           
   public LazarusGame() {
     new GameWindow(WIDTH, HEIGHT, "Lazarus", this);
     start();
+    
     handler = new GameHandler();
     this.addKeyListener(new KeyInput(handler));
     fallingObject = new NewFallingObject(handler);
     ending = new EndingScreen();
+    nextBlockQueued = ObjectID.randomFallingBlock();
     
-    ImageLoader loader = new ImageLoader();
+    loader = new ImageLoader();
     level = loader.loadImage("/LazarusSimpleMap.png");
     background = loader.loadImage("/Background.png");
     lives = loader.loadImage("/heart.png");
@@ -88,7 +93,10 @@ public class LazarusGame extends Canvas implements Runnable {
     }
     
     if (playerLives > 0) {
-      fallingObject.createNewFallingObject();
+      fallingObject.createNewFallingObject(nextBlockQueued);
+      nextBlockQueued = fallingObject.getNextInQueue();
+      
+      nextBlockImage = loader.loadImage(handler.getImageSource(nextBlockQueued));
     }
   }
   
@@ -114,10 +122,11 @@ public class LazarusGame extends Canvas implements Runnable {
     }
     
     //next block
-    graphics.setColor(Color.lightGray);
-    graphics.fillRect(2, 120, 42*3, 42*3);
     graphics.setColor(Color.black);
-    graphics.drawRect(2, 120, 42*3, 42*3);
+    graphics.fillRect(5, 120, 42*2, 42*2);
+    graphics.setColor(Color.red);
+    graphics.drawRect(5, 120, 42*2, 42*2);
+    graphics.drawImage(nextBlockImage, 5 + 84/4, 120 + 84/4, 42, 42, null);
     
     if (gameOver || handler.victory()) {
       ending.loadEnding(graphics, WIDTH, HEIGHT, message);  
