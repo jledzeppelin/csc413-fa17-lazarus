@@ -30,4 +30,11 @@ public enum ObjectID {
   public static ObjectID randomFallingBlock() {
     return fallingBlockList.get(random.nextInt(size));
   }
+  
+  public static boolean isAFallingBlock(ObjectID id) {
+    if (fallingBlockList.contains(id)) {
+      return true;
+    }
+    return false;
+  }
 }

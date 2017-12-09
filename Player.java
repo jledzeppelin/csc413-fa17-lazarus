@@ -1,3 +1,5 @@
+
+
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -12,7 +14,7 @@ public class Player extends GameObject {
   private BufferedImage[] blobStrip;
   GameHandler handler;
   private boolean win = false;
-  private boolean playerState = false;
+  private boolean moving = false;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
     super(x, y, id);
@@ -50,7 +52,7 @@ public class Player extends GameObject {
       movesLeft--;
     } else {
       //reset to standing image
-      playerState = false;
+      moving = false;
       blobStrip = images.get(PlayerStates.Standing);
       
       movesLeft = 0;
@@ -59,7 +61,7 @@ public class Player extends GameObject {
         //moves by 6 for 7 times to equal the width of a block
         xVelocity = -6;
         movesLeft = 7;
-        playerState = true;
+        moving = true;
         blobStrip = images.get(PlayerStates.MoveLeft);
         
       } else if (!handler.isRight()) {
@@ -70,7 +72,7 @@ public class Player extends GameObject {
       if (handler.isRight()) {
         xVelocity = 6;
         movesLeft = 7;
-        playerState = true;
+        moving = true;
         blobStrip = images.get(PlayerStates.MoveRight);
       } else if (!handler.isLeft()) {
         xVelocity = 0;
@@ -88,7 +90,7 @@ public class Player extends GameObject {
     } else {
       tmpIndex = blobStrip.length - movesLeft;
     }
-    if(playerState == true){
+    if(moving == true){
     graphics.drawImage(blobStrip[tmpIndex], x , y - 42 , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
     }else{
       graphics.drawImage(blobStrip[tmpIndex], x , y , blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
@@ -103,33 +105,47 @@ public class Player extends GameObject {
  
   private void collision() {
     boolean intersect = false;
+    
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
+      
+      
       //TO DO add jump to block if possible
-      if (tmpObj.getID() == ObjectID.Wall){
+      
+      if (tmpObj.getID() != ObjectID.Player ){
         if (getBounds().intersects(tmpObj.getBounds())) {
           //x += -xVelocity;
          // y += -yVelocity;
           
           
-          y -= 43; 
+          y -= 42; 
           for (int j = 0; j < handler.obj.size(); j++) {
             GameObject tmpObj2 = handler.obj.get(j);
-            if (tmpObj2.getID() == ObjectID.Wall){
+            if (tmpObj2.getID() != ObjectID.Player ){
               if(getBounds().intersects(tmpObj2.getBounds()))
                 intersect = true;   
               }  
             }
           if (intersect == true){
-            y += 43;
+            y += 42;
             x += -xVelocity;
           }else {
-            y -= 1;
+            y -= 0;
             x += xVelocity;
             }
         }
       } 
+    }
+    y += 42;
+    for (int i = 0; i < handler.obj.size(); i++) {
+      GameObject tmpObj = handler.obj.get(i);
+      if (tmpObj.getID() != ObjectID.Player){
+        if (getBounds().intersects(tmpObj.getBounds())) {
+          y -= 42;
+        
+        }
+      }
     }
   }
   
