@@ -28,18 +28,18 @@ public class FallingBlock extends NextBlock {
       GameObject tmpObj = handler.obj.get(i);
       
       //better way to check instersects
-      if (tmpObj.getID() == ObjectID.Player || tmpObj.getID() == ObjectID.Wall || tmpObj.getID() == ObjectID.StopButton) {   
-        if (getBounds().intersects(tmpObj.getBounds())) {
-          
-          if (tmpObj.getID() == ObjectID.Player) {
-            handler.setResetLevel(true);
-            tmpObj.lives--;
-          } else {
-            yVelocity = 0;
-            isFalling = false;
-          }
-          
+      if (tmpObj.getID() == ObjectID.Player) {   
+        if (getBounds().intersects(tmpObj.getBounds()) && this.isFalling) {
+          handler.setResetLevel(true);
+          tmpObj.lives--;
         }
+        
+      } else if (tmpObj.getID() == ObjectID.Wall || tmpObj.getID() == ObjectID.StopButton) {
+        if (getBounds().intersects(tmpObj.getBounds())) {
+          yVelocity = 0;
+          isFalling = false;
+        }
+        
       } else {
         if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
           if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
