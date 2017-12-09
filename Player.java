@@ -27,17 +27,10 @@ public class Player extends GameObject {
   }
   
   @Override
-  public void tick() { 
+  public void tick() {
     /*
-    if (health <= 0) {
-      if (lives > 0) {
-        lives--;
-        if (lives != 0) {
-          health = 100;
-        }
-      } else {
-        handler.removeObject(this);
-      }
+    if (lives == 0) {
+      handler.removeObject(this);
     }
     */
     

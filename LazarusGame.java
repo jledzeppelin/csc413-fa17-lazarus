@@ -17,7 +17,8 @@ public class LazarusGame extends Canvas implements Runnable {
   private BufferedImage lives;
   
   private int playerLives;
-  
+  //private int resetPosX;
+  //private int resetPosY;
   boolean gameOver = false;
   String message;
           
@@ -95,10 +96,23 @@ public class LazarusGame extends Canvas implements Runnable {
     
     handler.render(graphics);
     
+    /*
+    if (handler.resetLevel()) {
+      for (int i = 0; i < handler.obj.size(); i++) {
+        if (ObjectID.isAFallingBlock(handler.obj.get(i).getID())) {
+          handler.removeObject(handler.obj.get(i));
+        } else if (handler.obj.get(i).getID() == ObjectID.Player) {
+          handler.obj.get(i).setX(resetPosX);
+          handler.obj.get(i).setY(resetPosY);
+        }
+      }
+      
+    }
+    */
+    
     if (gameOver) {
       ending.loadEnding(graphics, WIDTH, HEIGHT, message);
-    }
-    
+    }  
     //***************** End of drawing section
     
     graphics.dispose();
@@ -122,6 +136,8 @@ public class LazarusGame extends Canvas implements Runnable {
         }
         if (green == 255) {
           handler.addObject(new Player(xAxis * 42, yAxis * 42, ObjectID.Player, handler));
+          //resetPosX = xAxis * 42;
+          //resetPosY = yAxis * 42;
         }
         if (blue == 255) {
           handler.addObject(new StopButton(xAxis * 42, yAxis * 42, ObjectID.StopButton));

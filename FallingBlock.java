@@ -18,14 +18,41 @@ public class FallingBlock extends NextBlock {
   
   @Override
   public void tick() {
+    //need to implement collision differently if i want different speeds
     //y += yVelocity * blockSpeedMap.get(id);
-    y += 1;
+    y += yVelocity;
+            
+    yVelocity = 2;
     
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
-      //if (tmpObj.getID() != ObjectID.Player | ObjectID.)
-    }
+      //better way to check instersects
+      if (tmpObj.getID() == ObjectID.Player || tmpObj.getID() == ObjectID.Wall || tmpObj.getID() == ObjectID.StopButton) {   
+        if (getBounds().intersects(tmpObj.getBounds())) {
+          
+          if (tmpObj.getID() == ObjectID.Player) {
+            handler.setResetLevel(true);
+            tmpObj.lives--;
+          } else {
+            yVelocity = 0;
+            isFalling = false;
+          }
+          
+        }
+      } else {
+        if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
+          if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
+            handler.removeObject(tmpObj);
+            //sound here
+          } else {
+            yVelocity = 0;
+            isFalling = false;
+          }
+        }
+      }
+    } 
+    
   }
   
   @Override
