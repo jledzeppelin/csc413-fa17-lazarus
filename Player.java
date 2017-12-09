@@ -102,16 +102,34 @@ public class Player extends GameObject {
   }
  
   private void collision() {
+    boolean intersect = false;
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
       //TO DO add jump to block if possible
       if (tmpObj.getID() == ObjectID.Wall){
         if (getBounds().intersects(tmpObj.getBounds())) {
-          x += -xVelocity;
-          y += -yVelocity;
+          //x += -xVelocity;
+         // y += -yVelocity;
+          
+          
+          y -= 41; 
+          for (int j = 0; j < handler.obj.size(); j++) {
+            GameObject tmpObj2 = handler.obj.get(j);
+            if (tmpObj2.getID() == ObjectID.Wall){
+              if(getBounds().intersects(tmpObj2.getBounds()))
+                intersect = true;   
+              }  
+            }
+          if (intersect == true){
+            y += 41;
+            x += -xVelocity;
+          }else {
+            y -= 1;
+            x += xVelocity;
+            }
         }
-      }
+      } 
     }
   }
   
