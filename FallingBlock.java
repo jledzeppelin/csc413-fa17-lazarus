@@ -21,9 +21,9 @@ public class FallingBlock extends NextBlock {
     //need to implement collision differently if i want different speeds
     //y += yVelocity * blockSpeedMap.get(id);
     y += yVelocity;
-            
-    yVelocity = 2;
-    
+    if(isFalling)
+      yVelocity = 2;
+    if(isFalling){
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
       
@@ -49,11 +49,12 @@ public class FallingBlock extends NextBlock {
           } else {
             yVelocity = 0;
             isFalling = false;
+            i = handler.obj.size();
           }
         }
       }
     } 
-    
+    } 
   }
   
   @Override
