@@ -8,6 +8,7 @@ public class GameHandler {
   
   private boolean moveRight = false;
   private boolean moveLeft = false;
+  private boolean victory = false;
   private boolean resetLevel = false;
   
   public void tick() { 
@@ -32,6 +33,12 @@ public class GameHandler {
     obj.remove(tmpObj);
   }
   
+  public boolean victory() {
+    return victory;
+  }
+  public void setVictory(boolean v) {
+    victory = v;
+  }
   public boolean resetLevel() {
     return resetLevel;
   }

@@ -17,10 +17,11 @@ public class LazarusGame extends Canvas implements Runnable {
   private BufferedImage lives;
   
   private int playerLives;
-  //private int resetPosX;
-  //private int resetPosY;
-  boolean gameOver = false;
-  String message;
+  private int resetPosX;
+  private int resetPosY;
+  private boolean victory = false;
+  private boolean gameOver = false;
+  private String message;
           
   public LazarusGame() {
     new GameWindow(WIDTH, HEIGHT, "Lazarus", this);
@@ -28,6 +29,7 @@ public class LazarusGame extends Canvas implements Runnable {
     handler = new GameHandler();
     this.addKeyListener(new KeyInput(handler));
     fallingObject = new NewFallingObject(handler);
+    ending = new EndingScreen();
     
     ImageLoader loader = new ImageLoader();
     level = loader.loadImage("/LazarusSimpleMap.png");
@@ -54,6 +56,8 @@ public class LazarusGame extends Canvas implements Runnable {
   }
   
   public void tick() {
+    handler.tick();
+    
     for (int i = 0; i < handler.obj.size(); i++) {
       if (handler.obj.get(i).getID() == ObjectID.Player) {
         playerLives = handler.obj.get(i).lives;
@@ -65,8 +69,27 @@ public class LazarusGame extends Canvas implements Runnable {
       }
     }
     
-    handler.tick();
-    fallingObject.createNewFallingObject();
+    //handler.tick();
+    if (handler.victory() && playerLives != 0) {
+      message = "AWW YISS";
+    }
+    
+    if (handler.resetLevel()) {
+      for (int i = 0; i < handler.obj.size(); i++) {
+        if (ObjectID.isAFallingBlock(handler.obj.get(i).getID())) {
+          handler.removeObject(handler.obj.get(i));
+        } else if (handler.obj.get(i).getID() == ObjectID.Player) {
+          handler.obj.get(i).setX(resetPosX);
+          handler.obj.get(i).setY(resetPosY);
+        }
+      }
+      
+      handler.setResetLevel(false);
+    }
+    
+    if (playerLives > 0) {
+      fallingObject.createNewFallingObject();
+    }
   }
   
   public void render() {
@@ -84,8 +107,10 @@ public class LazarusGame extends Canvas implements Runnable {
     graphics.drawImage(background, 0, 0, WIDTH, HEIGHT, null); 
     
     //lives 
-    for (int i = 0; i < playerLives; i++){
-      graphics.drawImage(lives, 10 + 35 * i, 10, 40, 40, null);
+    if (playerLives > 0) {
+      for (int i = 0; i < playerLives; i++){
+        graphics.drawImage(lives, 10 + 35 * i, 10, 40, 40, null);
+      }
     }
     
     //next block
@@ -94,25 +119,11 @@ public class LazarusGame extends Canvas implements Runnable {
     graphics.setColor(Color.black);
     graphics.drawRect(2, 120, 42*3, 42*3);
     
-    handler.render(graphics);
-    
-    /*
-    if (handler.resetLevel()) {
-      for (int i = 0; i < handler.obj.size(); i++) {
-        if (ObjectID.isAFallingBlock(handler.obj.get(i).getID())) {
-          handler.removeObject(handler.obj.get(i));
-        } else if (handler.obj.get(i).getID() == ObjectID.Player) {
-          handler.obj.get(i).setX(resetPosX);
-          handler.obj.get(i).setY(resetPosY);
-        }
-      }
-      
+    if (gameOver || handler.victory()) {
+      ending.loadEnding(graphics, WIDTH, HEIGHT, message);  
+    } else {
+      handler.render(graphics); 
     }
-    */
-    
-    if (gameOver) {
-      ending.loadEnding(graphics, WIDTH, HEIGHT, message);
-    }  
     //***************** End of drawing section
     
     graphics.dispose();
@@ -136,8 +147,8 @@ public class LazarusGame extends Canvas implements Runnable {
         }
         if (green == 255) {
           handler.addObject(new Player(xAxis * 42, yAxis * 42, ObjectID.Player, handler));
-          //resetPosX = xAxis * 42;
-          //resetPosY = yAxis * 42;
+          resetPosX = xAxis * 42;
+          resetPosY = yAxis * 42;
         }
         if (blue == 255) {
           handler.addObject(new StopButton(xAxis * 42, yAxis * 42, ObjectID.StopButton));

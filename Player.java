@@ -11,7 +11,6 @@ public class Player extends GameObject {
   private int movesLeft; 
   private BufferedImage[] blobStrip;
   GameHandler handler;
-  private boolean win = false;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
     super(x, y, id);
@@ -28,11 +27,6 @@ public class Player extends GameObject {
   
   @Override
   public void tick() {
-    /*
-    if (lives == 0) {
-      handler.removeObject(this);
-    }
-    */
     
     if (movesLeft > 0) {
       x += xVelocity;
@@ -64,6 +58,10 @@ public class Player extends GameObject {
         yVelocity = 0;
       }
     }
+    
+    if (this.lives == 0) {
+      handler.removeObject(this);
+    }
   }
   
   @Override
@@ -86,8 +84,7 @@ public class Player extends GameObject {
   private void collision() {
     for (int i = 0; i < handler.obj.size(); i++) {
       GameObject tmpObj = handler.obj.get(i);
-      
-      //TO DO add jump to block if possible
+ 
       if (tmpObj.getID() == ObjectID.Wall){
         if (getBounds().intersects(tmpObj.getBounds())) {
           x += -xVelocity;

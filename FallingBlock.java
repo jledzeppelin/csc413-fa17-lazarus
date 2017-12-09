@@ -30,6 +30,7 @@ public class FallingBlock extends NextBlock {
       //better way to check instersects
       if (tmpObj.getID() == ObjectID.Player) {   
         if (getBounds().intersects(tmpObj.getBounds()) && this.isFalling) {
+          handler.removeObject(this);
           handler.setResetLevel(true);
           tmpObj.lives--;
         }
