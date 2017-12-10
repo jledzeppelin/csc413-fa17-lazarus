@@ -1,15 +1,19 @@
+package GameObjects;
+
+import Images.ImageLoader;
+import ObjectEnumerations.ObjectID;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class StopButton extends GameObject {
+public class Wall extends GameObject {
   BufferedImage block;
   
-  public StopButton(int x, int y, ObjectID id) {
+  public Wall(int x, int y, ObjectID id) {
     super(x, y, id);
     
     ImageLoader loader = new ImageLoader();
-    block = loader.loadImage("/Button.png");
+    block = loader.loadImage("/Wall.png");
   }
   
   @Override

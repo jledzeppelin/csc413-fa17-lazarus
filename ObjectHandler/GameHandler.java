@@ -1,9 +1,13 @@
+package ObjectHandler;
+
+import GameObjects.GameObject;
+import ObjectEnumerations.ObjectID;
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.util.HashMap;
 
 public class GameHandler {
-  ArrayList<GameObject> obj = new ArrayList<GameObject>();
+  public ArrayList<GameObject> obj = new ArrayList<GameObject>();
   static HashMap<ObjectID, String> blockImageMap = new HashMap<>();
   
   private boolean moveRight = false;

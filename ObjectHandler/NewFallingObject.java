@@ -1,3 +1,9 @@
+package ObjectHandler;
+
+import GameObjects.FallingBlock;
+import GameObjects.GameObject;
+import ObjectEnumerations.ObjectID;
+
 public class NewFallingObject {
   private GameHandler handler;
   private ObjectID nextInQueue;

@@ -1,3 +1,9 @@
+package GameObjects;
+
+import Images.ImageStripLoader;
+import ObjectEnumerations.ObjectID;
+import ObjectEnumerations.PlayerStates;
+import ObjectHandler.GameHandler;
 import java.awt.Rectangle;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -7,11 +13,13 @@ public class Player extends GameObject {
   
   private HashMap<PlayerStates, BufferedImage[]> images;
   private ImageStripLoader imgStripLoader;
-  
-  private int movesLeft; 
+ 
   private BufferedImage[] blobStrip;
   GameHandler handler;
-  private boolean moving = false;
+  
+  private int movesLeft; 
+  private boolean movingLeft = false;
+  private boolean movingRight = false;
   
   public Player(int x, int y, ObjectID id, GameHandler handler) {
     super(x, y, id);
@@ -29,7 +37,7 @@ public class Player extends GameObject {
   @Override
   public void tick() {
     
-    if (movesLeft > 0) {
+    if (movesLeft > 0 ) {
       x += xVelocity;
       y += yVelocity;
       
@@ -37,16 +45,20 @@ public class Player extends GameObject {
       movesLeft--;
     } else {
       //reset to standing image
-      moving = false;
+      movingRight = false;
+      movingLeft = false;
       blobStrip = images.get(PlayerStates.Standing);
       movesLeft = 0;
       
       if (handler.isLeft()) {
-        //moves by 6 for 7 times to equal the width of a block
+        //moves by 6 for 7 times to equal the width of a block       
         xVelocity = -6;
         movesLeft = 7;
-        moving = true;
+        movingLeft = true;
+        
+        soundPlayer.playSound(playerStateSound.get(PlayerStates.MoveLeft));
         blobStrip = images.get(PlayerStates.MoveLeft);
+        
       } else if (!handler.isRight()) {
         xVelocity = 0;
         yVelocity = 0;
@@ -55,7 +67,9 @@ public class Player extends GameObject {
       if (handler.isRight()) {
         xVelocity = 6;
         movesLeft = 7;
-        moving = true;
+        movingRight = true;
+        
+        soundPlayer.playSound(playerStateSound.get(PlayerStates.MoveRight));
         blobStrip = images.get(PlayerStates.MoveRight);
       } else if (!handler.isLeft()) {
         xVelocity = 0;
@@ -78,8 +92,10 @@ public class Player extends GameObject {
       tmpIndex = blobStrip.length - movesLeft;
     }
     
-    if (moving) {
-      graphics.drawImage(blobStrip[tmpIndex], x, y - 42, blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
+    if (movingRight) {     
+      graphics.drawImage(blobStrip[tmpIndex], x - xVelocity*tmpIndex, y - 42, blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);   
+    } else if (movingLeft) {
+      graphics.drawImage(blobStrip[tmpIndex], x - xVelocity*tmpIndex - 42, y - 42, blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
     } else {
       graphics.drawImage(blobStrip[tmpIndex], x, y, blobStrip[tmpIndex].getWidth(), blobStrip[tmpIndex].getHeight(), null);
     }
@@ -106,8 +122,15 @@ public class Player extends GameObject {
             if (tmpObj2.getID() != ObjectID.Player && tmpObj.getID() != ObjectID.StopButton){
               if(getBounds().intersects(tmpObj2.getBounds()))
                 intersect = true;   
-              }  
+              } 
+            if (tmpObj2.getID() == ObjectID.StopButton){
+              if(getBounds().intersects(tmpObj2.getBounds())){
+                handler.setVictory(true);
+                soundPlayer.playSound(gameObjectSound.get(ObjectID.StopButton));
+              } 
             }
+          }
+            
           
           if (intersect == true){
             y += 42;

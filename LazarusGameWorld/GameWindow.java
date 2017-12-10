@@ -1,3 +1,5 @@
+package LazarusGameWorld;
+
 import java.awt.Dimension;
 import javax.swing.JFrame;
 

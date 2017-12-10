@@ -1,3 +1,7 @@
+package ObjectHandler;
+
+import GameObjects.GameObject;
+import ObjectEnumerations.ObjectID;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

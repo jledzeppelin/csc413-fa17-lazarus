@@ -1,5 +1,11 @@
+package GameObjects;
+
+import ObjectEnumerations.ObjectID;
+import ObjectEnumerations.PlayerStates;
+import Sound.SoundPlayer;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.HashMap;
 
 public abstract class GameObject {
   protected int width = 42;
@@ -10,6 +16,10 @@ public abstract class GameObject {
   protected int lives;
   protected ObjectID id;
   protected boolean isFalling = false;
+  protected SoundPlayer soundPlayer = new SoundPlayer();
+  
+  protected static HashMap<PlayerStates, String> playerStateSound = new HashMap<>();
+  protected static HashMap<ObjectID, String> gameObjectSound = new HashMap<>();
   
   public GameObject(int x, int y, ObjectID id) {
     this.x = x;
@@ -56,5 +66,21 @@ public abstract class GameObject {
   }
   public void setFalling(boolean fall) {
     this.isFalling = fall;
+  }
+  public void setLives(int lives) {
+    this.lives = lives;
+  }
+  public int getLives() {
+    return lives;
+  }
+  
+  static {
+    playerStateSound.put(PlayerStates.JumpLeft, "Move.wav");
+    playerStateSound.put(PlayerStates.JumpRight, "Move.wav");
+    playerStateSound.put(PlayerStates.MoveLeft, "Move.wav");
+    playerStateSound.put(PlayerStates.MoveRight, "Move.wav");
+    playerStateSound.put(PlayerStates.Squished, "Move.wav");
+    
+    gameObjectSound.put(ObjectID.StopButton, "Button.wav");
   }
 }
