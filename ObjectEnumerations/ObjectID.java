@@ -1,3 +1,5 @@
+package ObjectEnumerations;
+
 
 import java.util.ArrayList;
 import java.util.Random;

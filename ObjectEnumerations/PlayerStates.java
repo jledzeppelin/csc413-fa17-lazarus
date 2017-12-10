@@ -1,3 +1,5 @@
+package ObjectEnumerations;
+
 public enum PlayerStates {
   Standing(),
   MoveRight(),

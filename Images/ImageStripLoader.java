@@ -1,3 +1,5 @@
+package Images;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -11,7 +13,7 @@ public class ImageStripLoader {
     try {
       //TO DO check is the strip is being cut up correctly
       
-      image = ImageIO.read(getClass().getResource(source));
+      image = ImageIO.read(getClass().getResourceAsStream(source));
       tileSize = image.getWidth() / length;
       imageStrip = new BufferedImage[length];
       

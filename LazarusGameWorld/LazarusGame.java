@@ -1,5 +1,14 @@
+package LazarusGameWorld;
+
+import Images.ImageLoader;
+import ObjectEnumerations.ObjectID;
+import ObjectHandler.KeyInput;
+import ObjectHandler.GameHandler;
+import GameObjects.StopButton;
+import GameObjects.Wall;
+import ObjectHandler.NewFallingObject;
+import GameObjects.Player;
 import java.awt.*;
-import java.awt.Canvas;
 import java.awt.image.*;
 
 public class LazarusGame extends Canvas implements Runnable {
@@ -24,8 +33,7 @@ public class LazarusGame extends Canvas implements Runnable {
   private boolean victory = false;
   private boolean gameOver = false;
   private String message;
-  private ObjectID nextBlockQueued;
-  
+  private ObjectID nextBlockQueued; 
           
   public LazarusGame() {
     new GameWindow(WIDTH, HEIGHT, "Lazarus", this);
@@ -38,9 +46,9 @@ public class LazarusGame extends Canvas implements Runnable {
     nextBlockQueued = ObjectID.randomFallingBlock();
     
     loader = new ImageLoader();
-    level = loader.loadImage("/LazarusSimpleMap.png");
-    background = loader.loadImage("/Background.png");
-    lives = loader.loadImage("/heart.png");
+    level = loader.loadImage("/res/LazarusSimpleMap.png");
+    background = loader.loadImage("/res/Background.png");
+    lives = loader.loadImage("/res/heart.png");
     
     loadLevel(level);
   }
@@ -66,7 +74,7 @@ public class LazarusGame extends Canvas implements Runnable {
     
     for (int i = 0; i < handler.obj.size(); i++) {
       if (handler.obj.get(i).getID() == ObjectID.Player) {
-        playerLives = handler.obj.get(i).lives;
+        playerLives = handler.obj.get(i).getLives();
         
         if (playerLives == 0) {
           gameOver = true;
@@ -76,11 +84,11 @@ public class LazarusGame extends Canvas implements Runnable {
       }
     }
     
-    //handler.tick();
     if (handler.victory() && playerLives != 0) {
       message = "AWW YISS";
     }
     
+    //might need to fix
     if (handler.resetLevel()) {
       for (int i = 0; i < handler.obj.size(); i++) {
         if (ObjectID.isAFallingBlock(handler.obj.get(i).getID())) {

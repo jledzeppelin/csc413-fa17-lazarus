@@ -1,3 +1,9 @@
+package ObjectHandler;
+
+import GameObjects.FallingBlock;
+import GameObjects.GameObject;
+import ObjectEnumerations.ObjectID;
+
 public class NewFallingObject {
   private GameHandler handler;
   private ObjectID nextInQueue;
@@ -19,6 +25,8 @@ public class NewFallingObject {
       if (tmpGameObject.getID() == ObjectID.Player) {
         x = tmpGameObject.getX();
         playerCreated = true;
+        if(tmpGameObject.isMoving())
+          create = false;
       } else if (tmpGameObject.isFalling()) {
         create = false;
       }

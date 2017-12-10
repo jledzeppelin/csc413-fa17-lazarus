@@ -1,7 +1,12 @@
+package GameObjects;
 
+import Images.ImageLoader;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import ObjectEnumerations.ObjectID;
+import ObjectHandler.GameHandler;
+
 
 public class FallingBlock extends NextBlock {
   private BufferedImage block;
@@ -46,7 +51,7 @@ public class FallingBlock extends NextBlock {
           if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
             if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
               handler.removeObject(tmpObj);
-              //sound here
+              soundPlayer.playSound("/res/Crush.wav");
             } else {
               yVelocity = 0;
               isFalling = false;
