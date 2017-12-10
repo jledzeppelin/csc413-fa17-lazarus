@@ -21,40 +21,42 @@ public class FallingBlock extends NextBlock {
     //need to implement collision differently if i want different speeds
     //y += yVelocity * blockSpeedMap.get(id);
     y += yVelocity;
-    if(isFalling)
+    
+    if (isFalling) {
       yVelocity = 2;
-    if(isFalling){
-    for (int i = 0; i < handler.obj.size(); i++) {
-      GameObject tmpObj = handler.obj.get(i);
+    
+      for (int i = 0; i < handler.obj.size(); i++) {
+        GameObject tmpObj = handler.obj.get(i);
       
-      //better way to check instersects
-      if (tmpObj.getID() == ObjectID.Player) {   
-        if (getBounds().intersects(tmpObj.getBounds()) && this.isFalling) {
-          handler.removeObject(this);
-          handler.setResetLevel(true);
-          tmpObj.lives--;
-        }
+        //better way to check instersects
+        if (tmpObj.getID() == ObjectID.Player) {   
+          if (getBounds().intersects(tmpObj.getBounds()) && this.isFalling) {
+            handler.removeObject(this);
+            handler.setResetLevel(true);
+            tmpObj.lives--;
+          }
         
-      } else if (tmpObj.getID() == ObjectID.Wall || tmpObj.getID() == ObjectID.StopButton) {
-        if (getBounds().intersects(tmpObj.getBounds())) {
-          yVelocity = 0;
-          isFalling = false;
-        }
-        
-      } else {
-        if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
-          if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
-            handler.removeObject(tmpObj);
-            //sound here
-          } else {
+        } else if (tmpObj.getID() == ObjectID.Wall || tmpObj.getID() == ObjectID.StopButton) {
+          if (getBounds().intersects(tmpObj.getBounds())) {
             yVelocity = 0;
             isFalling = false;
-            i = handler.obj.size();
+          }
+        
+        } else {
+          if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
+            if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
+              handler.removeObject(tmpObj);
+              //sound here
+            } else {
+              yVelocity = 0;
+              isFalling = false;
+              i = handler.obj.size();
+            }
           }
         }
       }
-    } 
-    } 
+    }
+    
   }
   
   @Override

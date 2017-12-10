@@ -1,11 +1,12 @@
 public class NewFallingObject {
   private GameHandler handler;
+  private ObjectID nextInQueue;
   
   public NewFallingObject(GameHandler handler) {
     this.handler = handler;
   }
   
-  void createNewFallingObject() {
+  public void createNewFallingObject(ObjectID nextBlock) {
     boolean create = true;
     boolean playerCreated = false;
     GameObject tmpGameObject;
@@ -23,11 +24,15 @@ public class NewFallingObject {
       }
     }
     
+    
     if (create && playerCreated) {
-      randomID = ObjectID.randomFallingBlock();
-      
-      handler.addObject(new FallingBlock(x, 0, randomID, handler));
+      handler.addObject(new FallingBlock(x, 0, nextBlock, handler));
+      nextInQueue = randomID = ObjectID.randomFallingBlock();
     }
     
+  }
+  
+  public ObjectID getNextInQueue() {
+    return nextInQueue;
   }
 }
