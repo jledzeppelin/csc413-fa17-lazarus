@@ -46,9 +46,9 @@ public class LazarusGame extends Canvas implements Runnable {
     nextBlockQueued = ObjectID.randomFallingBlock();
     
     loader = new ImageLoader();
-    level = loader.loadImage("/LazarusSimpleMap.png");
-    background = loader.loadImage("/Background.png");
-    lives = loader.loadImage("/heart.png");
+    level = loader.loadImage("res/LazarusSimpleMap.png");
+    background = loader.loadImage("res/Background.png");
+    lives = loader.loadImage("res/heart.png");
     
     loadLevel(level);
   }

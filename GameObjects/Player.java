@@ -157,12 +157,12 @@ public class Player extends GameObject {
   }
   
   public void fillImageMap() {
-    images.put(PlayerStates.Standing, imgStripLoader.getImageStrip("/Lazarus_stand.png", 1));
-    images.put(PlayerStates.Scared, imgStripLoader.getImageStrip("/Lazarus_afraid_strip10.png", 10));
-    images.put(PlayerStates.Squished, imgStripLoader.getImageStrip("/Lazarus_squished_strip11.png", 11));
-    images.put(PlayerStates.MoveLeft, imgStripLoader.getImageStrip("/Lazarus_left_strip7.png", 7));
-    images.put(PlayerStates.MoveRight, imgStripLoader.getImageStrip("/Lazarus_right_strip7.png", 7));
-    images.put(PlayerStates.JumpLeft, imgStripLoader.getImageStrip("/Lazarus_jump_left_strip7.png", 7));
-    images.put(PlayerStates.JumpRight, imgStripLoader.getImageStrip("/Lazarus_jump_right_strip7.png", 7));
+    images.put(PlayerStates.Standing, imgStripLoader.getImageStrip("res/Lazarus_stand.png", 1));
+    images.put(PlayerStates.Scared, imgStripLoader.getImageStrip("res/Lazarus_afraid_strip10.png", 10));
+    images.put(PlayerStates.Squished, imgStripLoader.getImageStrip("res/Lazarus_squished_strip11.png", 11));
+    images.put(PlayerStates.MoveLeft, imgStripLoader.getImageStrip("res/Lazarus_left_strip7.png", 7));
+    images.put(PlayerStates.MoveRight, imgStripLoader.getImageStrip("res/Lazarus_right_strip7.png", 7));
+    images.put(PlayerStates.JumpLeft, imgStripLoader.getImageStrip("res/Lazarus_jump_left_strip7.png", 7));
+    images.put(PlayerStates.JumpRight, imgStripLoader.getImageStrip("res/Lazarus_jump_right_strip7.png", 7));
   }
 }

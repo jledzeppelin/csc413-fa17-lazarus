@@ -13,7 +13,7 @@ public class Wall extends GameObject {
     super(x, y, id);
     
     ImageLoader loader = new ImageLoader();
-    block = loader.loadImage("/Wall.png");
+    block = loader.loadImage("res/Wall.png");
   }
   
   @Override

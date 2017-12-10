@@ -13,7 +13,7 @@ public class StopButton extends GameObject {
     super(x, y, id);
     
     ImageLoader loader = new ImageLoader();
-    block = loader.loadImage("/Button.png");
+    block = loader.loadImage("res/Button.png");
   }
   
   @Override
