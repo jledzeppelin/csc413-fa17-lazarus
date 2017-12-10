@@ -9,7 +9,7 @@ public class SoundPlayer {
     
     try {
       Clip clip = AudioSystem.getClip();
-      URL file = this.getClass().getClassLoader().getResource(filename);
+      URL file = this.getClass().getResource(filename);
       
       AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
       clip.open(inputStream);

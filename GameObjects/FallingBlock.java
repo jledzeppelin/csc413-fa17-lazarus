@@ -51,7 +51,7 @@ public class FallingBlock extends NextBlock {
           if (tmpObj != this && getBounds().intersects(tmpObj.getBounds())) {
             if (blockWeightMap.get(this.id) > blockWeightMap.get(tmpObj.getID())) {
               handler.removeObject(tmpObj);
-              soundPlayer.playSound("Crush.wav");
+              soundPlayer.playSound("/res/Crush.wav");
             } else {
               yVelocity = 0;
               isFalling = false;

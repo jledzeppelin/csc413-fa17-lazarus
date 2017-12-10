@@ -66,11 +66,11 @@ public class GameHandler {
   }
   
   static {
-    blockImageMap.put(ObjectID.CardboardBox, "res/CardBox.png");
-    blockImageMap.put(ObjectID.Rock, "res/Rock.png");
-    blockImageMap.put(ObjectID.Mesh, "res/Mesh.png");
-    blockImageMap.put(ObjectID.MetalBox, "res/MetalBox.png");
-    blockImageMap.put(ObjectID.StoneBox, "res/StoneBox.png");
-    blockImageMap.put(ObjectID.WoodBox, "res/WoodBox.png");
+    blockImageMap.put(ObjectID.CardboardBox, "/res/CardBox.png");
+    blockImageMap.put(ObjectID.Rock, "/res/Rock.png");
+    blockImageMap.put(ObjectID.Mesh, "/res/Mesh.png");
+    blockImageMap.put(ObjectID.MetalBox, "/res/MetalBox.png");
+    blockImageMap.put(ObjectID.StoneBox, "/res/StoneBox.png");
+    blockImageMap.put(ObjectID.WoodBox, "/res/WoodBox.png");
   }
 }

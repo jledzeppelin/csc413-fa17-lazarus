@@ -75,12 +75,12 @@ public abstract class GameObject {
   }
   
   static {
-    playerStateSound.put(PlayerStates.JumpLeft, "Move.wav");
-    playerStateSound.put(PlayerStates.JumpRight, "Move.wav");
-    playerStateSound.put(PlayerStates.MoveLeft, "Move.wav");
-    playerStateSound.put(PlayerStates.MoveRight, "Move.wav");
-    playerStateSound.put(PlayerStates.Squished, "Move.wav");
+    playerStateSound.put(PlayerStates.JumpLeft, "/res/Move.wav");
+    playerStateSound.put(PlayerStates.JumpRight, "/res/Move.wav");
+    playerStateSound.put(PlayerStates.MoveLeft, "/res/Move.wav");
+    playerStateSound.put(PlayerStates.MoveRight, "/res/Move.wav");
+    playerStateSound.put(PlayerStates.Squished, "/res/Move.wav");
     
-    gameObjectSound.put(ObjectID.StopButton, "Button.wav");
+    gameObjectSound.put(ObjectID.StopButton, "/res/Button.wav");
   }
 }
